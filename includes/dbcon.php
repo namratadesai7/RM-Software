@@ -1,6 +1,6 @@
 <?php
 $server = "192.168.1.162";
-$connection = array("Database"=>"EWP","UID"=>"sa","PWD"=>"12345","CharacterSet"=>"UTF-8");
+$connection = array("Database"=>"RMNEW","UID"=>"sa","PWD"=>"12345","CharacterSet"=>"UTF-8");
 $conn = sqlsrv_connect($server,$connection);
 
 if($conn){
