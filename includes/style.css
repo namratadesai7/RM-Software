@@ -89,6 +89,7 @@ p{
     list-style-type: none;
     text-decoration: none;
     font-family: "Poppins", sans-serif;
+  
 }
 
 .sidebar {
@@ -616,10 +617,10 @@ span.orange {
     }
 }
 
-@media only screen and (max-width: 991px) {}
+/* @media only screen and (max-width: 991px) {}
 
 @media only screen and (max-width: 768px) {}
 
 @media only screen and (max-width: 576px) {}
 
-@media only screen and (max-width: 375px) {}
+@media only screen and (max-width: 375px) {} */

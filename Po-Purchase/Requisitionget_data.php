@@ -7,7 +7,7 @@ if(isset($_POST['iname'])){
 	$ii = $_POST['iname'];
 
 	$query="SELECT a.item,a.i_code,b.category  FROM [RM_software].[dbo].[rm_item] as a join [RM_software].[dbo].[rm_category] as b ON a.c_code=b.c_code
-	  WHERE a.item LIKE '%$ii%' and a.c_code != 30 and a.c_code != 37";
+	  WHERE a.item LIKE '$ii%' and a.c_code != 30 and a.c_code != 37";
 	$result=sqlsrv_query($conn,$query);
 
 	while($row=sqlsrv_fetch_array($result,SQLSRV_FETCH_ASSOC)){
@@ -17,15 +17,15 @@ if(isset($_POST['iname'])){
 
 }
 
-/*----------------------- code for get autocomplete name-----------------------*/
+/*----------------------- code for get autocomplete name and dept-----------------------*/
 if (isset($_POST['name'])) {
 	$ii = $_POST['name'];
-	$query = "SELECT * FROM [RM_software].[dbo].[online_portal_user] where name LIKE '%$ii%'";
-$result = sqlsrv_query($conn,$query);
-while($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) ){
-	$response[] = array("label"=>$row['name']);
-}
-echo json_encode($response);
+	$query = "SELECT  name,department FROM [RM_software].[dbo].[online_portal_user] where name LIKE '$ii%'";
+	$result = sqlsrv_query($conn,$query);
+	while($row =sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) ){
+		$response[] = array("label"=>$row['name'],"dept"=>$row['department']);
+	}
+	echo json_encode($response);
 }
 
 /*----------------------- code for get autocomplete mcno dept plant-----------------------*/
@@ -40,6 +40,18 @@ if(isset($_POST['mc'])){
 		$response[]=array("label"=>$row['mc'],"dname"=>$row['dpnt'],"plant"=>$row['plant']);
 	}
 	echo json_encode($response);
-
 }
+
+/*----------------------- code for get autocomplete mcno dept plant-----------------------*/
+if (isset($_POST['pname'])) {
+	$ii=$_POST['pname'];
+    $query = "SELECT pid,party_name   FROM [RM_software].[dbo].[rm_party_master] WHERE party_name LIKE '%$ii%' ";
+    $result = sqlsrv_query($conn,$query);
+    while($row=sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC) ){
+        $response[] = array("label"=>$row['party_name'],"pid"=>$row['pid']);
+    }
+
+    echo json_encode($response);
+
+  }
 ?>

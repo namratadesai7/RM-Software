@@ -23,6 +23,7 @@ if(isset($_POST['login'])){
             $_SESSION['empid']=$row['employee_id'];
             $_SESSION['uname']=$row['user_name'];
             $_SESSION['sname']=$row['sortname1'];
+            $_SESSION['dept']=$row['department'];
             $_SESSION['password']=$row['password'];
             $_SESSION['urights']=$row['User_Rights'];
             $_SESSION['isteamlead']=$row['is_teamlead'] ?? '';
