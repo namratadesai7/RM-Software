@@ -100,7 +100,7 @@ if(isset($_POST['smaddrateform'])){
             $run=true;
             continue;
         }else{
-            $sql="INSERT INTO Requisition_rate(party_id,rate,head_id,created_By) VALUES('".$value."','".$rate[$key]."','".$reqno."','".$_SESSION['uname']."')";
+            $sql="INSERT INTO Requisition_rate(party_id,rate,head_id,createdBy) VALUES('".$value."','".$rate[$key]."','".$reqno."','".$_SESSION['uname']."')";
             $run=sqlsrv_query($conn,$sql);
         }
       

@@ -15,6 +15,17 @@ include('../includes/dbcon.php');
     .fl{
         margin-top:2rem;
     }
+    #rateaprvmodel .modal-dialog {
+    width: 100vw !important; 
+    min-width: 100vw !important; 
+    max-width: none !important; 
+    }
+
+    #rateaprvmodel .modal-content {
+       max-width: 100% !important; 
+        max-height: 100% !important; 
+    }
+    #rateaprvmodel .modal-body{padding:0 !important;}
    
 </style>
 
@@ -70,12 +81,17 @@ include('../includes/dbcon.php');
                </thead>
                <tbody>
                     <?php
-                        $sql="SELECT id,createdAt,indentor,indentor_dept,approved_by FROM Requisition_head ";
+                        $sql="SELECT a.id,a.createdAt,a.indentor,a.indentor_dept,a.approved_by,b.id as bid FROM Requisition_head a inner join
+                         Requisition_details b on a.id=b.head_id";
                         $run=sqlsrv_query($conn,$sql);
                         while($row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC)){
                             $sql1="select count(req_aprv) as cn from Requisition_details where head_id='".$row['id']."' and req_aprv=1 group  by head_id";
                             $run1=sqlsrv_query($conn,$sql1);
                             $row1=sqlsrv_fetch_array($run1,SQLSRV_FETCH_ASSOC);
+                            
+                            $sql2="select count(head_id) as cn from Requisition_rate where head_id='".$row['bid']."'  group  by head_id";
+                            $run2=sqlsrv_query($conn,$sql2);
+                            $row2=sqlsrv_fetch_array($run2,SQLSRV_FETCH_ASSOC);
                             ?>
                             <tr>
                                 <td><?php echo $row['id'] ?></td>
@@ -90,9 +106,9 @@ include('../includes/dbcon.php');
                                     <a class="btn btn-success btn-sm"  href="Requisition-mapdf.php?pdf=<?php echo $row['id']?>">MA-PDF</a>
                                     <!-- <button type="button" <?php if($row1['cn'] >1){ ?> class="btn btn-sm btn-success ma"  <?php   } else{  ?> class="btn btn-sm btn-danger ma"  <?php  } ?>  id="<?php echo $row['id'] ?>">MA</button>
                                 0 -->
-                                <button type="button" class="btn btn-sm  ma"   id="<?php echo $row['id'] ?>" data-name="<?php echo $row1['cn']  ?>" >MA</button>
-                                    <button type="button" class="btn btn-sm btn-danger radd"  id="<?php echo $row['id']  ?>" >AddRate</button>
-                                    <button class="btn btn-sm btn-danger">RA</button>
+                                    <button type="button" class="btn btn-sm  ma"   id="<?php echo $row['id'] ?>" data-name="<?php echo $row1['cn']  ?>" >MA</button>
+                                    <button type="button" class="btn btn-sm  radd"  id="<?php echo $row['id']  ?>" data-name="<?php echo $row2['cn'] ?>">AddRate</button>
+                                    <button class="btn btn-sm btn-danger rateaprv" id="<?php echo $row['id'] ?>">RA</button>
                                     <button class="btn btn-sm btn-success">RA-PDF</button>
                                 </td>
 
@@ -146,15 +162,15 @@ include('../includes/dbcon.php');
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary save"  form="addrateformm" name="addrateform">Save changes</button>
+                        <!-- <button type="submit" class="btn btn-primary save"  form="addrateformm" name="addrateform">Save changes</button> -->
                     </div>
                     </div>
                 </div>
             </div>
 
-              <!-- Smaller inside 
-              Modal for Add Rate  -->
-              <div class="modal fade" id="smaddratemodel" tabindex="-1" aria-labelledby="smaddrateModalLabel" aria-hidden="true">
+            <!-- Smaller inside 
+            Modal for Add Rate  -->
+            <div class="modal fade" id="smaddratemodel" tabindex="-1" aria-labelledby="smaddrateModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-m">
                     <div class="modal-content">
                     <div class="modal-header">
@@ -175,6 +191,52 @@ include('../includes/dbcon.php');
                     </div>
                 </div>
             </div>
+
+            <!-- Modal for Rate Approval  -->
+            <div class="modal fade" id="rateaprvmodel" tabindex="-1" aria-labelledby="rateaprvModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rateaprvModalLabel">Rate Approval</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0 ">
+                        <form action="Requisition_db.php" method="POST"  id="rateaprvformm" >
+                            <div id="showrateaprv">
+                                
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <!-- <button type="submit" class="btn btn-primary save"  form="rateaprvformm" name="rateaprvform">Save changes</button>  -->
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Modal for Item History  -->
+             <div class="modal fade" id="ihistorymodel" tabindex="-1"  aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >Rate Approval</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0 ">
+                        <!-- <form action="Requisition_db.php" method="POST"  id="ihistoryformm" > -->
+                            <div id="showihistory">
+                                
+                            </div>
+                        <!-- </form> -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -201,68 +263,115 @@ include('../includes/dbcon.php');
     });
 
     //Add Rate Modal
-        $(document).on('click','.radd',function(){
-            // Find the closest parent row of the clicked "drums" element
-            var reqno=$(this).attr('id');
-            
-            $.ajax({
-                url:'requisitionma_modal.php',
-                type: 'post',
-                data: {reqno1:reqno},  
-                success:function(data){
-                    $('#showaddrate').html(data);  
-                    $('#addratemodel').modal('show');
+    $(document).on('click','.radd',function(){
+        // Find the closest parent row of the clicked "drums" element
+        var reqno=$(this).attr('id');
+        
+        $.ajax({
+            url:'requisitionma_modal.php',
+            type: 'post',
+            data: {reqno1:reqno},  
+            success:function(data){
+                $('#showaddrate').html(data);  
+                $('#addratemodel').modal('show');
 
-                    //smaller model inside add rate add model
-                    $('.addrate').off('click').on('click',function(){
-                        var reqno2=$(this).attr('id');
-                        $.ajax({
-                            url:'requisitionma_modal.php',
-                            type: 'post',
-                            data: {reqno2:reqno2},  
-                            success:function(data){
-                                $('#showsmaddrate').html(data); 
-                                $('#smaddratemodel').modal('show');
+                //smaller model inside add rate add model
+                $('.addrate').off('click').on('click',function(){
+                    var reqno2=$(this).attr('id');
+                    $.ajax({
+                        url:'requisitionma_modal.php',
+                        type: 'post',
+                        data: {reqno2:reqno2},  
+                        success:function(data){
+                            $('#showsmaddrate').html(data); 
+                            $('#smaddratemodel').modal('show');
 
 
-                                $('.addrow').on('click', function() {
+                            $('.addrow').on('click', function() {
 
-                                    // Check if the partyname input field of the last row is filled
-                                    var lastPartyName = $('.row:last .partyname').val();
-                                    if (!lastPartyName) {
-                                        // If the partyname input field is empty, alert the user and prevent adding a new row
-                                        alert('Please fill in the Party Name before adding a new row.');
-                                        return false; // Prevent the default behavior of the "add" button
-                                    }
+                                // Check if the partyname input field of the last row is filled
+                                var lastPartyName = $('.row:last .partyname').val();
+                                if (!lastPartyName) {
+                                    // If the partyname input field is empty, alert the user and prevent adding a new row
+                                    alert('Please fill in the Party Name before adding a new row.');
+                                    return false; // Prevent the default behavior of the "add" button
+                                }
 
-                                    const lastRow = $('.row:last');
+                                const lastRow = $('.row:last');
 
-                                    // Clone the last row
-                                    const newRow = lastRow.clone();
+                                // Clone the last row
+                                const newRow = lastRow.clone();
 
-                                    // Clear input values in the cloned row
-                                    newRow.find('input').val('');
+                                // Clear input values in the cloned row
+                                newRow.find('input').val('');
 
-                                    newRow.css("margin-top","4px");
-                                    // Append the new row after the last row
-                                    lastRow.after(newRow);
-                                   
-            
-                                });    
-                            
-                            }
-                        });
-                    })
-            
-                }
-            });
-           
+                                newRow.css("margin-top","4px");
+                                // Append the new row after the last row
+                                lastRow.after(newRow);
+                                
+        
+                            });    
+                        
+                        }
+                    });
+                })
+        
+            }
         });
+        
+    });
 
-  
+     //RA Summary Modal
+    $(document).on('click','.rateaprv',function(){
+        // Find the closest parent row of the clicked "drums" element
+        var reqno=$(this).attr('id');
+        
+        $.ajax({
+            url:'requisitionma_modal.php',
+            type: 'post',
+            data: {reqno3:reqno},  
+            // dataType: 'json',
+            success:function(data){
+                $('#showrateaprv').html(data);  
+                $('#rateaprvmodel').modal('show');
+
+                $('.ihistory').click(function(){
+                    // Find the closest parent row of the clicked "drums" element
+                    var reqno=$(this).attr('id');
+                  
+                    $.ajax({
+                        url:'requisitionma_modal.php',
+                        type: 'post',
+                        data: {reqno4:reqno},  
+                        // dataType: 'json',
+                        success:function(data){
+                        $('#showihistory').html(data);  
+                        $('#ihistorymodel').modal('show');
+                        },
+                        error:function(err){
+                            console.log(err);
+                        }
+                    });
+                });
+
+              
+            }
+        });
+    });
+
     //to change the colors of button 
     $(document).ready(function() {
         $('button.ma').each(function() {
+            var id = $(this).attr('id');
+            // Make AJAX call or perform PHP check to get the value of $row1['cn']
+            var cn =$(this).data('name'); // Assuming $row1['cn'] is available here
+            if (cn > 1) {
+                $(this).addClass('btn-success');
+            } else {
+                $(this).addClass('btn-danger');
+            }
+        });
+        $('button.radd').each(function() {
             var id = $(this).attr('id');
             // Make AJAX call or perform PHP check to get the value of $row1['cn']
             var cn =$(this).data('name'); // Assuming $row1['cn'] is available here
