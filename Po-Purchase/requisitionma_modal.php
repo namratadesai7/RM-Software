@@ -6,18 +6,24 @@ if(isset($_POST['reqno'])){
     $sql="SELECT a.id,a.item,a.qnty,a.apx_cost,a.mc,a.department,a.plant,a.category,a.plant,a.category,a.state,a.type,a.old_part_stat,a.req_aprv FROM Requisition_details a left join  [RM_software].[dbo].[rm_item]  b on a.item=b.i_code
     left join [RM_software].[dbo].[rm_category] c on c.c_code = b.c_code where a.head_id='$reqno' ";
     $run=sqlsrv_query($conn,$sql);
+    $row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC);
+   
       
     ?>
     <style>
         #matable input{
             border:none;
+            background:none;
         }
+       
     </style>
    
         <table class="table table-bordered text-center table-striped table-hover" id="matable">
             <thead>
                     <tr class="bg-secondary text-light">
-                        <th >Sr.</th>
+                        <th >Sr.
+                            <input type="hidden" name="reqno" value="<?php echo $reqno ?>">
+                        </th>
                         <th>Item Description</th>
                         <th>Qnty</th>
                         <th>Approx Cost</th>
@@ -35,24 +41,25 @@ if(isset($_POST['reqno'])){
             </thead>
             <tbody>
                     <?php
-                    while($row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC)){
+                    $run1=sqlsrv_query($conn,$sql);
+                    while($row1=sqlsrv_fetch_array($run1,SQLSRV_FETCH_ASSOC)){
                     ?>
                     <tr>
-                        <td><input style="width:50px;" type="number" name="id[]" value="<?php echo $row['id']  ?>" ></td>
-                        <td><?php echo $row['item']  ?></td>
-                        <td><?php echo $row['qnty']  ?></td>
-                        <td><?php echo $row['apx_cost']  ?></td>
-                        <td><?php echo $row['mc']  ?></td>
-                        <td><?php echo $row['department']  ?></td>
-                        <td><?php echo $row['plant']  ?></td>
-                        <td><?php echo $row['category']  ?></td>
-                        <td><?php echo $row['state']  ?></td>
-                        <td><?php echo $row['type']  ?></td>
-                        <td><?php echo $row['old_part_stat']  ?></td>
+                        <td><input style="width:50px;" type="number" name="id[]" value="<?php echo $row1['id']  ?>" ></td>
+                        <td><?php echo $row1['item']  ?></td>
+                        <td><?php echo $row1['qnty']  ?></td>
+                        <td><?php echo $row1['apx_cost']  ?></td>
+                        <td><?php echo $row1['mc']  ?></td>
+                        <td><?php echo $row1['department']  ?></td>
+                        <td><?php echo $row1['plant']  ?></td>
+                        <td><?php echo $row1['category']  ?></td>
+                        <td><?php echo $row1['state']  ?></td>
+                        <td><?php echo $row1['type']  ?></td>
+                        <td><?php echo $row1['old_part_stat']  ?></td>
                         <td>
                             <!-- <input class="check" type="checkbox"  value="1" name="check[]"></td> -->
-                            <input type="checkbox" class="remove"  <?php echo ($row['req_aprv'] == 1) ? 'checked' : ''; ?>>
-                            <input type="hidden" class="checkbox-state" name="checkbox_state[]" value="<?php echo $row['req_aprv'] ?>" >
+                            <input type="checkbox" class="remove"  <?php echo ($row1['req_aprv'] == 1) ? 'checked' : ''; ?>>
+                            <input type="hidden" class="checkbox-state" name="checkbox_state[]" value="<?php echo $row1['req_aprv'] ?>" >
                     </tr>
                     <?php
                     }
@@ -65,14 +72,15 @@ if(isset($_POST['reqno'])){
 if(isset($_POST['reqno1'])){
     $reqno=$_POST['reqno1'];
 
-    $sql="SELECT a.id,a.item,a.qnty,a.apx_cost,a.mc,a.department,a.plant,a.category,a.plant,a.category,a.state,a.type,a.old_part_stat,a.req_aprv FROM Requisition_details a left join  [RM_software].[dbo].[rm_item]  b on a.item=b.i_code
+    $sql="SELECT a.req_aprv,a.id,a.item,a.qnty,a.apx_cost,a.mc,a.department,a.plant,a.category,a.plant,a.category,a.state,a.type,a.old_part_stat,a.req_aprv FROM Requisition_details a left join  [RM_software].[dbo].[rm_item]  b on a.item=b.i_code
     left join [RM_software].[dbo].[rm_category] c on c.c_code = b.c_code where a.head_id='$reqno' ";
     $run=sqlsrv_query($conn,$sql);
 
     ?>
     <style>
-        #matable input{
+       .in{
             border:none;
+            background:none;
         }
     </style>
         <table class="table table-bordered text-center table-striped table-hover" id="addratetable">
@@ -97,7 +105,7 @@ if(isset($_POST['reqno1'])){
                     while($row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC)){
                     ?>
                     <tr>
-                        <td><input style="width:50px;" type="number" name="id[]" value="<?php echo $row['id']  ?>" ></td>
+                        <td><input class="in" style="width:50px;" type="number" name="id[]" value="<?php echo $row['id']  ?>" ></td>
                         <td><?php echo $row['item']  ?></td>
                         <td><?php echo $row['qnty']  ?></td>
                         <td><?php echo $row['apx_cost']  ?></td>
@@ -108,7 +116,7 @@ if(isset($_POST['reqno1'])){
                         <td><?php echo $row['state']  ?></td>
                         <td><?php echo $row['type']  ?></td>
                         <td><?php echo $row['old_part_stat']  ?></td>
-                        <td><input type="button" class="btn btn-sm btn-warning addrate"  id="<?php echo $row['id']  ?>" value="Add Price"></td>
+                        <td><input type="button" class="btn btn-sm btn-warning addrate"  id="<?php echo $row['id']  ?>" data-name="<?php echo $row['req_aprv'] ?>" value="Add Price" ></td>
                     </tr>
                     <?php
                     }
@@ -168,9 +176,9 @@ if(isset($_POST['reqno2'])){
         while( $row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC)){
             ?>
              <div class="row a"  >
-                <input type="text" class="col form-control partyname b" placeholder="Enter Party Name" name="pname[]" value="<?php echo $row['party_name']  ?>" onFocus=SearchParty(this)  >
-                <input type="hidden" class="col form-control pid b" name="pid[]" value="<?php echo $row['party_id']  ?>" >
-                <input type="text" class="col form-control b" placeholder="Enter Rate" name="rate[]" value="<?php echo $row['rate']  ?>" >
+                <input type="text" class="col form-control partyname b" placeholder="Enter Party Name" name="pname[]" value="<?php echo $row['party_name']  ?>" onFocus=SearchParty(this)  readonly >
+                <input type="hidden" class="col form-control pid b" name="pid[]" value="<?php echo $row['party_id']  ?>" readonly >
+                <input type="text" class="col form-control b" placeholder="Enter Rate" name="rate[]" value="<?php echo $row['rate']  ?>" readonly >
             </div>
             <?php
                 }
@@ -188,21 +196,21 @@ if(isset($_POST['reqno2'])){
 
 if(isset($_POST['reqno3'])){
     $reqno=$_POST['reqno3'];
-    $sql="SELECT a.id,a.createdBy,a.createdAt,a.required_date,b.qnty,b.department,b.mc,b.type,b.old_part_stat,c.rate,d.party_name,d.pid,e.item,e.i_code,f.category
+    $sql="SELECT a.id,a.createdBy,a.createdAt,a.required_date,b.id as bid,b.qnty,b.department,b.mc,b.type,b.old_part_stat,b.rate_aprv,c.rate,c.id as rateid ,d.party_name,d.pid,e.item,e.i_code,f.category
     from Requisition_head a inner join Requisition_details b ON a.id=b.head_id
     inner join Requisition_rate c   on b.id=c.head_id 
     inner join [RM_software].[dbo].[rm_party_master] d  on c.party_id=d.pid 
     left join [RM_software].[dbo].[rm_item] e on b.item=e.i_code
-    join [RM_software].[dbo].[rm_category] f ON e.c_code=f.c_code";
+    join [RM_software].[dbo].[rm_category] f ON e.c_code=f.c_code where a.id='$reqno' ";
     $run=sqlsrv_query($conn,$sql);
     $row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC);    
 
     ?>
     <style>
-        .row{
-            background-color:#bfe2f2;  
-            padding-top:0px;
-            top:0 !important;
+        
+        #rateaprv input{
+            border:none ;
+            background:none;
         }
 
     </style>
@@ -210,24 +218,27 @@ if(isset($_POST['reqno3'])){
             <div class="out">
                 <div class="row">
                     <div class="col">
-                        INDENTOR:<?php echo $row['createdBy'] ?>
+                        INDENTOR:<?php echo $row['createdBy'] ?? '' ?>
                     </div>
                     <div class="col-auto">
-                        MRS.NO:<?php echo $row['id'] ?>
+                        MRS.NO:<?php echo $row['id'] ?? '' ?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        DATE:<?php echo $row['createdAt']-> format('d-M-Y') ?>
+                        <?php
+                        $cdate=$row['createdAt'] ?? '';
+                        $rdate=$row['required_date'] ?? '';
+
+                        ?>
+                        DATE:<?php echo ($cdate=='' ? :$row['createdAt']-> format('d-M-Y')) ?>
                     </div>
                     <div class="col-auto">
-                        REQUIRED DATE:<?php echo $row['required_date']-> format('d-M-Y') ?>
+                        REQUIRED DATE:<?php echo ($rdate=='' ? :$row['required_date']-> format('d-M-Y'))?>
                     </div>
-           
             </div>
-           
 
-            <table class="table table-bordered table-hover  text-center">
+            <table class="table table-bordered table-hover  text-center" id="rateaprv"> 
                 <thead>
                     <tr class="bg-secondary">
                         <th>Sr.No</th>
@@ -254,10 +265,15 @@ if(isset($_POST['reqno3'])){
                 while($row1=sqlsrv_fetch_array($run1, SQLSRV_FETCH_ASSOC)) {
                     if($icode!=$row1['i_code'] ){
                         $s=1;
+                        $sql2="SELECT top 1 b.receive_date,a.rec_qnty,a.pur_rate,c.party_name FROM [RM_software].[dbo].[inward_ind] a
+                        LEFT OUTER JOIN  [RM_software].[dbo].[inward_com] b on a.sr_no = b.sr_no AND a.receive_at = b.receive_at
+                        LEFT OUTER JOIN [RM_software].[dbo].[rm_party_master] c on c.pid= b.mat_from_party WHERE a.p_item ='".$row1['i_code']."' ORDER BY receive_date desc";
+                        $run2=sqlsrv_query($conn,$sql2);
+                        $row2=sqlsrv_fetch_array($run2,SQLSRV_FETCH_ASSOC);
                         ?>
                         <tr style="background:#d9dbdb;" >
 
-                        <td><?php echo $sr.$row['i_code'] ?></td>
+                        <td><?php echo $sr ?></td>
                         <td><?php echo $row1['item'] ?></td>
                         <td><?php echo $row1['category'] ?></td>
                         <td><?php echo $row1['qnty'] ?></td>
@@ -267,52 +283,69 @@ if(isset($_POST['reqno3'])){
                         <td><?php echo $row1['type'] ?></td>
                         <td><?php echo $row1['old_part_stat'] ?></td>
                         <td>
-                            <button  type="button" class="btn btn-sm btn-warning ihistory" id="<?php echo $row['i_code']  ?>" > Item History</button>
+                            <button  type="button" class="btn btn-sm btn-warning ihistory" id="<?php echo $row1['i_code']  ?>" > Item History</button>
                             <button class="btn btn-sm btn-warning">Reject</button>
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <?php
+                        $rdate=$row2['receive_date'] ?? '';
+                        $purdate=$row2['pur_rate'] ?? '';
+                        $recdate=$row2['rec_qnty'] ?? '';
+                        ?>
+                        <td><?php echo ($rdate =='' ? '':  $rdate-> format('Y-m-d')) ?></td>
+                        <td><?php echo ($purdate =='' ? '':  $purdate-> format('Y-m-d')) ?></td>
+                        <td><?php echo ($recdate =='' ? '':  $recdate-> format('Y-m-d')) ?></td>
                         </tr>
                         <?php
                         $sr++;
-                        $pname=$row1['item'];
+                        $itemid=$row1['bid'];
+                        $minrate=PHP_INT_MAX;
+                        $selectedRate = null;
+                    }
+                    if ($row1['rate'] < $minrate) {
+                        $minrate = $row1['rate'];
+                        $selectedRate = $row1['rate'];
                     }
                 ?>          
                     <tr>
                         <td></td>
-                        <td><?php echo $row1['party_name'] ?></td>
+                        <td><input type="text" name="pname" value="<?php echo $row1['party_name'] ?>" >
+                        <input type="hidden" name="itemid[]" class="itemid" value="<?php echo $row1['bid']  ?>"></td>
                         <td></td>
-                        <td><?php echo $row1['rate'] ?></td>
-                        <td><?php echo $row1['qnty']* $row1['rate'] ?></td>
-                        <td>L<?php echo $s ?></td>
+                        <td></td>
+                        <td><?php echo $row1['rate'] ?> 
+                            <input type="hidden" name="rateid[]" value="<?php echo $row1['rateid']  ?>"></td>
+                        <td><?php echo $row1['qnty']*$row1['rate'] ?></td>
+                        <td><input type="text" name="ratelist[]" value="L<?php echo $s ?>"></td>
                         <td>
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1<?php echo $pname  ?>">
+                            <input class="form-check-input<?php echo $itemid ?> a" type="radio" name="flexRadioDefault<?php echo $itemid ?>[]"  
+                            <?php if (trim($row1['rate'])==$minrate) {  $selectedRate = $row1['rate']; ?> checked  <?php } ?> >
+                             <input type="hidden" class="radio-state<?php echo $itemid ?> b" name="radio_state[]"  >
                         </td>
                         <td></td>
                     </tr>
-                       
                 <?php
                     $icode=$row1['i_code'];
                     $s++;
-                 }
-                ?>
-                  
+                 
+               
+            // Update minimum rate if the current rate is less
+           
+        }
+            ?>       
                 </tbody>
 
             </table>
         </div>
-  
     <?php
 }
 
 if(isset($_POST['reqno4'])){
     $icode=$_POST['reqno4'];
     $sql="SELECT top 10 b.receive_date,a.rec_qnty,a.pur_rate,c.party_name FROM [RM_software].[dbo].[inward_ind] a
-              LEFT OUTER JOIN  [RM_software].[dbo].[inward_com] b on a.sr_no = b.sr_no AND a.receive_at = b.receive_at
-              LEFT OUTER JOIN [RM_software].[dbo].[rm_party_master] c on c.pid= b.mat_from_party WHERE a.p_item ='$icode' ORDER BY receive_date desc";
+            LEFT OUTER JOIN  [RM_software].[dbo].[inward_com] b on a.sr_no = b.sr_no AND a.receive_at = b.receive_at
+            LEFT OUTER JOIN [RM_software].[dbo].[rm_party_master] c on c.pid= b.mat_from_party WHERE a.p_item ='$icode' ORDER BY receive_date desc";
    $run=sqlsrv_query($conn,$sql);
-//    $count=sqlsrv_num_rows($run);
+    //$count=sqlsrv_num_rows($run);
    ?>
    <table class="table table-bordered table-hover text-center">
         <thead>
@@ -339,15 +372,13 @@ if(isset($_POST['reqno4'])){
                     <?php
                 }
                 ?>
-          
         </tbody>
    </table>	
    <?php
 
 }
-?>
 
-       
+ ?>
 <script>
   
     $(document).ready(function(){
@@ -379,6 +410,30 @@ if(isset($_POST['reqno4'])){
         });
     });
 
+    $(document).ready(function() {
+      
+        $('.a').each(function() {
+            var id=  $(this).closest('tr').find('.itemid').val();
+
+            var isChecked = $(this).prop('checked');
+            var radioInput = $(this).closest('td').find('.radio-state'+id);
+            radioInput.val(isChecked ? '1' : '0');
+        });
+
+        $('.a').change(function() {
+        var id=  $(this).closest('tr').find('.itemid').val();
+
+            $('.radio-state'+id).val('0'); 
+            var isChecked = $(this).prop('checked');
+            var radioInput = $(this).closest('tr').find('.radio-state'+id);
+        
+            radioInput.val(isChecked ? '1' : '0');
+        });
+    });
+
+  
+
+   
     //add rate second modal
     function  SearchParty(textBoxRef){
         
@@ -425,4 +480,5 @@ if(isset($_POST['reqno4'])){
         })
     }
 
+    
 </script>

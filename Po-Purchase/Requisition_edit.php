@@ -67,23 +67,23 @@ if(isset($_GET['edit'])){
         <div class="divCss">
         
             <div class="row">
-                
-                    <label class="col-lg-3 form-label m-0" for="date">Date
-                        <input type="date" class="form-control" id="date" name="date" placeholder="" value="<?php echo $row['required_date']->format('Y-m-d') ?>" required>
-                    </label>
-                
-                    <label class="col-lg-3 form-label" for="prepby">Prepared By
-                        <input type="text" class="form-control prepby" id="prepby" value="<?php echo $row['indentor'] ?>" name="prepby" onFocus=Searchindentor(this) required>
-                        <input type="hidden" class="form-control udpt" id="udpt" name="udpt" value="<?php echo $_SESSION['dept'] ?>" required>
-                    </label>
-                
-                    <label class="col-lg-3 form-label" for="appby">Approved By
-                        <input type="text" class="form-control" id="appby" name="appby" value="<?php echo $row['approved_by'] ?>" required>
-                    </label>
-                
-                    <label class="col-lg-3 form-label" for="rem">Remarks
-                        <input type="text" class="form-control" id="rem"  name="rem" value="<?php echo $row['remarks'] ?>" required>
-                    </label>
+                <label class="col-lg-3 form-label m-0" for="date">Date
+                    <input type="date" class="form-control" id="date" name="date" placeholder="" value="<?php echo $row['required_date']->format('Y-m-d') ?>" required>
+                    <input type="hidden" name="reqno" value="<?php echo $id ?>">
+                </label>
+            
+                <label class="col-lg-3 form-label" for="prepby">Prepared By
+                    <input type="text" class="form-control prepby" id="prepby" value="<?php echo $row['indentor'] ?>" name="prepby" onFocus=Searchindentor(this) required>
+                    <input type="hidden" class="form-control udpt" id="udpt" name="udpt" value="<?php echo $_SESSION['dept'] ?>" required>
+                </label>
+            
+                <label class="col-lg-3 form-label" for="appby">Approved By
+                    <input type="text" class="form-control" id="appby" name="appby" value="<?php echo $row['approved_by'] ?>" required>
+                </label>
+            
+                <label class="col-lg-3 form-label" for="rem">Remarks
+                    <input type="text" class="form-control" id="rem"  name="rem" value="<?php echo $row['remarks'] ?>" required>
+                </label>
             </div>
             <div class="row mt-4">
                 <div class="col">
@@ -97,7 +97,7 @@ if(isset($_GET['edit'])){
                 <thead>
                     <tr class="bg-secondary text-light heading">
                         <th>Sr.</th>
-                        <th  >Item Description</th>
+                        <th>Item Description</th>
                         <th style="width:70px;">Qnty</th>
                         <th>Unit</th>
                         <th style="width:120px;">Approx Cost</th>
@@ -112,87 +112,89 @@ if(isset($_GET['edit'])){
                 </thead>
                 <tbody>
 
-                        <?php
-                        $sql1="SELECT * FROM Requisition_details where head_id='$id'";
-                        $sr=1;
-                        $run1=sqlsrv_query($conn,$sql1);
-              
-                        while($row1=sqlsrv_fetch_array($run1,SQLSRV_FETCH_ASSOC)){
+                    <?php
+                    $sql1="SELECT * FROM Requisition_details where head_id='$id'";
+                    $sr=1;
+                    $run1=sqlsrv_query($conn,$sql1);
+            
+                    while($row1=sqlsrv_fetch_array($run1,SQLSRV_FETCH_ASSOC)){
                         
-?>                                 
-                            <tr>
-                            <td><?php echo $sr++  ?></td>
-                        <td> <input type="text" class="form-control item"  name="item[]" onFocus=SearchItem(this) value="<?php echo $row1['item'] ?>" required  > </td>
-                        <td><input type="number" class="form-control" name="qty[]"  value="<?php echo $row1['qnty'] ?>"  required></td>
-                        <td>
-                            <select class="form-select" name="unit[]" id="unit" required>
-                                <!-- <option value="" selected disabled>--Select--</option> -->
-                                <option <?php if($row1['unit']=='Box'){ ?> selected  <?php }   ?>>Box</option>
-                                <option <?php if($row1['unit']=='Mtr'){ ?> selected  <?php }   ?>>Mtr</option>
-                                <option <?php if($row1['unit']=='cylnr'){ ?> selected  <?php }   ?>>cylnr</option>
-                                <option <?php if($row1['unit']=='Feet'){ ?> selected  <?php }   ?>>Feet</option>
-                                <option <?php if($row1['unit']=='Gram'){ ?> selected  <?php }   ?>>Gram</option>
-                                <option <?php if($row1['unit']=='Kg'){ ?> selected  <?php }   ?> >Kg</option>
-                                <option <?php if($row1['unit']=='Liter'){ ?> selected  <?php }   ?>>Liter</option>
-                                <option <?php if($row1['unit']=='Nos'){ ?> selected  <?php }   ?>>Nos</option>
-                                <option <?php if($row1['unit']=='Pair'){ ?> selected  <?php }   ?>>Pair</option>
-                                <option <?php if($row1['unit']=='Pkt'){ ?> selected  <?php }   ?>>Pkt</option>
-                                <option <?php if($row1['unit']=='Roll'){ ?> selected  <?php }   ?>>Roll</option>
-                                <option <?php if($row1['unit']=='Set'){ ?> selected  <?php }   ?>>Set</option>
-                                <option <?php if($row1['unit']=='Sq.Ft'){ ?> selected  <?php }   ?>>Sq.Ft</option>
-                                <option <?php if($row1['unit']=='Sqmm'){ ?> selected  <?php }   ?>>Sqmm</option>
-                                <option <?php if($row1['unit']=='Ton'){ ?> selected  <?php }   ?>>Ton</option>
-                                <option <?php if($row1['unit']=='Uom'){ ?> selected  <?php }   ?>>Uom</option>
-                                <option <?php if($row1['unit']=='Bag'){ ?> selected  <?php }   ?>>Bag</option>
-                                <option <?php if($row1['unit']=='Book'){ ?> selected  <?php }   ?>>Book</option>
-                                <option <?php if($row1['unit']=='R.ft'){ ?> selected  <?php }   ?>>R.ft</option>
-                                <option <?php if($row1['unit']=='Sq.Mtr'){ ?> selected  <?php }   ?>>Sq.Mtr</option>
-                            </select>
-                        <!-- <input type="number" class="form-control" id="unit"> -->
-                        </td>
-                        <td><input type="number" class="form-control" name="appcost[]" value="<?php echo $row1['apx_cost'] ?>" required></td>
-                        <td><input type="text" class="form-control mcno" name="mcno[]" onFocus=Searchmc(this) value="<?php echo $row1['mc'] ?>" required></td>
-                        <td><input type="text" class="form-control dept" name="dept[]" value="<?php echo $row1['department'] ?>"  required></td>
-                        <td>
-                            <select class="form-select" name="plant[]"  required>
-                                <option <?php if($row1['plant']=='All'){  ?> selected  <?php } ?> >All</option>
-                                <option  <?php if($row1['plant']=='1701'){  ?> selected  <?php } ?> >1701</option>
-                                <option  <?php if($row1['plant']=='2205'){  ?> selected  <?php } ?> >2205</option>
-                                <option  <?php if($row1['plant']=='696'){  ?> selected  <?php } ?> >696</option>
-                                <option  <?php if($row1['plant']=='jarod'){  ?> selected  <?php } ?> >jarod</option>
-                                <option  <?php if($row1['plant']=='baroda'){  ?> selected  <?php } ?> >baroda</option>
-                            </select>
-                            <!-- <input type="text" class="form-control plant" id="plant" > -->
-                        </td>
-                    <td><input type="text" class="form-control cat"  name="cat[]" value="<?php echo $row1['category'] ?>" required></td>
-                        <td>
-                            <select class="form-select" name="state[]" id="state" required>
-                                <option  <?php if($row1['state']=='Capital'){  ?> selected  <?php } ?>  >Capital</option>
-                                <option  <?php if($row1['state']=='Consumable'){  ?> selected  <?php } ?>  >Consumable</option> 
-                                <option   <?php if($row1['state']=='Raw Material'){  ?> selected  <?php } ?> >Raw Material</option>
-                            </select>
-                        </td>
+                    ?>                                 
+                        <tr>
+                            <td><?php echo $sr++  ?>
+                            <input type="hidden" name="reqdetid[]" value="<?php echo $row1['id'] ?>"></td>
+                            <td> <input type="text" class="form-control item"  name="item[]" onFocus=SearchItem(this) value="<?php echo $row1['item'] ?>" required  > 
+                            <input type="hidden" class="form-control i_code" name="i_code[]" id="<?php echo $row1['item'] ?>"  value="<?php echo $row1['item'] ?>"  >      </td>
+                            <td><input type="number" class="form-control" name="qty[]"  value="<?php echo $row1['qnty'] ?>"  required></td>
+                            <td>
+                                <select class="form-select" name="unit[]" id="unit" required>
+                                    <!-- <option value="" selected disabled>--Select--</option> -->
+                                    <option <?php if($row1['unit']=='Box'){ ?> selected  <?php }   ?>>Box</option>
+                                    <option <?php if($row1['unit']=='Mtr'){ ?> selected  <?php }   ?>>Mtr</option>
+                                    <option <?php if($row1['unit']=='cylnr'){ ?> selected  <?php }   ?>>cylnr</option>
+                                    <option <?php if($row1['unit']=='Feet'){ ?> selected  <?php }   ?>>Feet</option>
+                                    <option <?php if($row1['unit']=='Gram'){ ?> selected  <?php }   ?>>Gram</option>
+                                    <option <?php if($row1['unit']=='Kg'){ ?> selected  <?php }   ?> >Kg</option>
+                                    <option <?php if($row1['unit']=='Liter'){ ?> selected  <?php }   ?>>Liter</option>
+                                    <option <?php if($row1['unit']=='Nos'){ ?> selected  <?php }   ?>>Nos</option>
+                                    <option <?php if($row1['unit']=='Pair'){ ?> selected  <?php }   ?>>Pair</option>
+                                    <option <?php if($row1['unit']=='Pkt'){ ?> selected  <?php }   ?>>Pkt</option>
+                                    <option <?php if($row1['unit']=='Roll'){ ?> selected  <?php }   ?>>Roll</option>
+                                    <option <?php if($row1['unit']=='Set'){ ?> selected  <?php }   ?>>Set</option>
+                                    <option <?php if($row1['unit']=='Sq.Ft'){ ?> selected  <?php }   ?>>Sq.Ft</option>
+                                    <option <?php if($row1['unit']=='Sqmm'){ ?> selected  <?php }   ?>>Sqmm</option>
+                                    <option <?php if($row1['unit']=='Ton'){ ?> selected  <?php }   ?>>Ton</option>
+                                    <option <?php if($row1['unit']=='Uom'){ ?> selected  <?php }   ?>>Uom</option>
+                                    <option <?php if($row1['unit']=='Bag'){ ?> selected  <?php }   ?>>Bag</option>
+                                    <option <?php if($row1['unit']=='Book'){ ?> selected  <?php }   ?>>Book</option>
+                                    <option <?php if($row1['unit']=='R.ft'){ ?> selected  <?php }   ?>>R.ft</option>
+                                    <option <?php if($row1['unit']=='Sq.Mtr'){ ?> selected  <?php }   ?>>Sq.Mtr</option>
+                                </select>
+                            <!-- <input type="number" class="form-control" id="unit"> -->
+                            </td>
+                            <td><input type="number" class="form-control" name="appcost[]" value="<?php echo $row1['apx_cost'] ?>" required></td>
+                            <td><input type="text" class="form-control mcno" name="mcno[]" onFocus=Searchmc(this) value="<?php echo $row1['mc'] ?>" required></td>
+                            <td><input type="text" class="form-control dept" name="dept[]" value="<?php echo $row1['department'] ?>"  required></td>
+                            <td>
+                                <select class="form-select" name="plant[]"  required>
+                                    <option <?php if($row1['plant']=='All'){  ?> selected  <?php } ?> >All</option>
+                                    <option <?php if($row1['plant']=='1701'){  ?> selected  <?php } ?> >1701</option>
+                                    <option <?php if($row1['plant']=='2205'){  ?> selected  <?php } ?> >2205</option>
+                                    <option <?php if($row1['plant']=='696'){  ?> selected  <?php } ?> >696</option>
+                                    <option <?php if($row1['plant']=='jarod'){  ?> selected  <?php } ?> >jarod</option>
+                                    <option <?php if($row1['plant']=='baroda'){  ?> selected  <?php } ?> >baroda</option>
+                                </select>
+                                <!-- <input type="text" class="form-control plant" id="plant" > -->
+                            </td>
+                            <td><input type="text" class="form-control cat"  name="cat[]" value="<?php echo $row1['category'] ?>" required></td>
+                            <td>
+                                <select class="form-select" name="state[]" id="state" required>
+                                    <option  <?php if($row1['state']=='Capital'){  ?> selected  <?php } ?>  >Capital</option>
+                                    <option  <?php if($row1['state']=='Consumable'){  ?> selected  <?php } ?>  >Consumable</option> 
+                                    <option   <?php if($row1['state']=='Raw Material'){  ?> selected  <?php } ?> >Raw Material</option>
+                                </select>
+                            </td>
 
-                        <td>
-                            <select class="form-select" name="type[]" id="type" required>
-                                <option  <?php if($row1['type']=='New'){  ?> selected  <?php } ?>   >New</option>
-                                <option  <?php if($row1['type']=='Replace'){  ?> selected  <?php } ?>   >Replace</option>
-                            </select>
+                            <td>
+                                <select class="form-select" name="type[]" id="type" required>
+                                    <option  <?php if($row1['type']=='New'){  ?> selected  <?php } ?>   >New</option>
+                                    <option  <?php if($row1['type']=='Replace'){  ?> selected  <?php } ?>   >Replace</option>
+                                </select>
                     
-                        </td>
-                        <td>
-                            <select class="form-select" name="opstat[]" id="opstat" >
-                                <option value="">--select--</option>
-                                <option  <?php if($row1['old_part_stat']=='Capital'){  ?> selected  <?php } ?> class="hide" >Repair</option>
-                                <option <?php if($row1['old_part_stat']=='Stock'){  ?> selected  <?php } ?>  class="hide" >Stock</option>
-                                <option <?php if($row1['old_part_stat']=='Scrap'){  ?> selected  <?php } ?>  class="hide">Scrap</option>
-                            </select>
-                        </td>
-                    </tr>
-                <?php
+                            </td>
+                            <td>
+                                <select class="form-select" name="opstat[]" id="opstat" >
+                                    <option value="">--select--</option>
+                                    <option  <?php if($row1['old_part_stat']=='Capital'){  ?> selected  <?php } ?> class="hide" >Repair</option>
+                                    <option <?php if($row1['old_part_stat']=='Stock'){  ?> selected  <?php } ?>  class="hide" >Stock</option>
+                                    <option <?php if($row1['old_part_stat']=='Scrap'){  ?> selected  <?php } ?>  class="hide">Scrap</option>
+                                </select>
+                            </td>
+                        </tr>
+                    <?php
                         }
-                ?>
-                       
+                    ?>
+                        
                 </tbody>
             </table>
         
@@ -201,7 +203,7 @@ if(isset($_GET['edit'])){
                 <div class="col"></div>
                 <div class="col-auto">
                     <a href="requisition.php" class="btn btn-sm btn-danger">Back</a>         
-                    <button type="submit" class="btn btn-sm btn-success" name="save">Save</button>
+                    <button type="submit" class="btn btn-sm btn-success" name="edit" >Edit</button>
                 </div>
         </div>  
     </form>    
@@ -211,10 +213,33 @@ if(isset($_GET['edit'])){
     $('#req').addClass('active');
     $('#popurMenu').addClass('showMenu');
 
+
+    
+ 
+    //to get item name on page load
+    $(document).ready(function(){
+        $('.i_code').each(function(){
+        var icode=$(this).val();
+        var $this = $(this); // Store the reference to $(this)
+            $.ajax({
+            url:"Requisitionget_data.php",
+            type:'post',
+            data:{
+                item:icode,
+            },
+            success:function(data){
+                
+                $this.closest('td').find('.item').val(data);
+                
+                //  console.log(data);
+            }
+        });
+    });
+    })
     //to get item name
     
     function  SearchItem(textBoxRef){
-
+        console.log("Ss");
         var f= true;
         $(textBoxRef).keypress(function(e){
             if(e.keyCode== '13' || e.which =='13'){
@@ -239,6 +264,7 @@ if(isset($_GET['edit'])){
             select:function(event,ui){
                 $(this).closest('tr').find('.item').val(ui.item.label);
                 $(this).closest('tr').find('.cat').val(ui.item.cat);
+                $(this).closest('tr').find('.i_code').val(ui.item.i_code);
                 return false;
             },
             change:function(event,ui){
@@ -370,7 +396,7 @@ if(isset($_GET['edit'])){
 
                 // Create a new row and append it to the tbody
                 const newRow = $('<tr>');
-                newRow.html('<td>'+ srValue +'</td> <td>  <input type="text" class="form-control item" id="item" name="item[]" onFocus=SearchItem(this) ></td> <td><input type="number" class="form-control" id="qty" name="qty[]"> </td><td><select class="form-select" name="unit[]" id="unit"> <!-- <option value="" selected disabled>--Select--</option> -->     <option>Box</option> <option>Mtr</option> <option>cylnr</option> <option>Feet</option> <option>Gram</option><option>Kg</option> <option>Liter</option><option>Nos</option> <option>Pair</option><option>Pkt</option><option>Roll</option> <option>Set</option><option>Sq.Ft</option><option>Sqmm</option> <option>Ton</option> <option>Uom</option><option>Bag</option><option>Book</option><option>R.ft</option><option>Sq.Mtr</option></select></td><td><input type="number" class="form-control" id="appcost" name="appcost[]"></td><td><input type="text" class="form-control mcno" id="mcno" name="mcno[]" onFocus=Searchmc(this) ></td> <td><input type="text" class="form-control dept" id="dept" name="dept[]"  ></td><td><select class="form-select" name="plant[]" id="plant"> <option value="All">All</option><option value="1701">1701</option> <option value="2205">2205</option> <option value="696">696</option><option value="jarod">jarod</option><option value="baroda">baroda</option> </select></td><td><input type="text" class="form-control cat" id="cat" name="cat[]" ></td>  <td> <select class="form-select" name="state[]" id="state"> <option >Capital</option> <option >Consumable</option><option >Raw Material</option></select>   </td> <td>  <select class="form-select" name="type[]" id="type"> <option value="New"  >New</option> <option value="Replace"  >Replace</option> </select> </td> <td><select class="form-select" name="opstat[]" id="opstat"> <option value="">--select--</option> <option class="hide" >Repair</option> <option class="hide" >Stock</option> <option class="hide">Scrap</option></select> </td>');
+                newRow.html('<td>'+ srValue +'</td> <td>  <input type="text" class="form-control item" id="item" name="item[]" onFocus=SearchItem(this) >  <input type="hidden" class="form-control i_code" name="i_code[]"        ></td> <td><input type="number" class="form-control" id="qty" name="qty[]"> </td><td><select class="form-select" name="unit[]" id="unit"> <!-- <option value="" selected disabled>--Select--</option> -->     <option>Box</option> <option>Mtr</option> <option>cylnr</option> <option>Feet</option> <option>Gram</option><option>Kg</option> <option>Liter</option><option>Nos</option> <option>Pair</option><option>Pkt</option><option>Roll</option> <option>Set</option><option>Sq.Ft</option><option>Sqmm</option> <option>Ton</option> <option>Uom</option><option>Bag</option><option>Book</option><option>R.ft</option><option>Sq.Mtr</option></select></td><td><input type="number" class="form-control" id="appcost" name="appcost[]"></td><td><input type="text" class="form-control mcno" id="mcno" name="mcno[]" onFocus=Searchmc(this) ></td> <td><input type="text" class="form-control dept" id="dept" name="dept[]"  ></td><td><select class="form-select" name="plant[]" id="plant"> <option value="All">All</option><option value="1701">1701</option> <option value="2205">2205</option> <option value="696">696</option><option value="jarod">jarod</option><option value="baroda">baroda</option> </select></td><td><input type="text" class="form-control cat" id="cat" name="cat[]" ></td>  <td> <select class="form-select" name="state[]" id="state"> <option >Capital</option> <option >Consumable</option><option >Raw Material</option></select>   </td> <td>  <select class="form-select" name="type[]" id="type"> <option value="New"  >New</option> <option value="Replace"  >Replace</option> </select> </td> <td><select class="form-select" name="opstat[]" id="opstat"> <option value="">--select--</option> <option class="hide" >Repair</option> <option class="hide" >Stock</option> <option class="hide">Scrap</option></select> </td>');
               
                 // Append the new row to the table
                 tbody.append(newRow);
@@ -388,15 +414,7 @@ if(isset($_GET['edit'])){
         });
 
 </script>
-
-
-
-
-
 <?php
-
-
 }
 include('../includes/footer.php');
-
 ?>

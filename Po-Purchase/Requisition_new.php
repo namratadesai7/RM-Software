@@ -359,16 +359,16 @@ include('../includes/header.php');
                 tbody.append(newRow);
                 $sr++;
             });
-        });
-        $(document).on('change', '#type', function () {
-        var val = $(this).val();
-        console.log(val)
-        if (val == "Replace") {
-            $('#opstat option.hide').show(); // Hide options with class .hide
-        }else if (val == "New") {
-            $('#opstat option.hide').hide(); // Hide options with class .hide
-        }
-        });
+    });
+    $(document).on('change', '#type', function () {
+    var val = $(this).val();
+    console.log(val)
+    if (val == "Replace") {
+        $('#opstat option.hide').show(); // Hide options with class .hide
+    }else if (val == "New") {
+        $('#opstat option.hide').hide(); // Hide options with class .hide
+    }
+    });
 
 </script>
 <?php

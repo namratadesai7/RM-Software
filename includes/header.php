@@ -173,14 +173,14 @@ include('dbcon.php');
                     <div class="sub-menu" id="popurMenu">
                     <a href="../Po-Purchase/Requisition.php" class="sub-item" id="req">0.
                             &nbsp;Requisition</a>
-                        <a href="../Po-Purchase/drum_name.php" class="sub-item" id="dName">1. &nbsp; Name</a>
-                        <a href="../Po-Purchase/drum_plant.php" class="sub-item" id="dPlant">2. &nbsp;Plant</a>
-                        <a href="../Po-Purchase/drum_series.php" class="sub-item" id="dSeries">3. &nbsp;Drum Series</a>
-                        <a href="../Po-Purchase/drum_material.php" class="sub-item" id="dmat">4. &nbsp;Material</a>
-                        <a href="../Po-Purchase/drum_other.php" class="sub-item" id="other">5. &nbsp;Other</a>
-                        <a href="../Po-Purchase/drum_conductor.php" class="sub-item" id="dConductor">6. &nbsp;Conductor</a>
-                        <a href="../Po-Purchase/drum_stage.php" class="sub-item" id="dStage">7. &nbsp;Stage</a>                      
-                        <a href="../Po-Purchase/drum_unit.php" class="sub-item" id="dUnit">8. &nbsp;Unit</a>
+                        <a href="../Po-Purchase/Poentry.php" class="sub-item" id="dName">1. &nbsp; Po entry</a>
+                        <a href="../Po-Purchase/drum_plant.php" class="sub-item" id="dPlant">2. &nbsp;Seacrh PO</a>
+                        <a href="../Po-Purchase/drum_series.php" class="sub-item" id="dSeries">3. &nbsp;Purchase Entry</a>
+                        <a href="../Po-Purchase/drum_material.php" class="sub-item" id="dmat">4. &nbsp;Search Purchase</a>
+                        <a href="../Po-Purchase/drum_other.php" class="sub-item" id="other">5. &nbsp;Pending PO</a>
+                        <a href="../Po-Purchase/drum_conductor.php" class="sub-item" id="dConductor">6. &nbsp;Purchase Report</a>
+                        <a href="../Po-Purchase/drum_stage.php" class="sub-item" id="dStage">7. &nbsp;Purchase-696</a>                      
+                        <a href="../Po-Purchase/drum_unit.php" class="sub-item" id="dUnit">8. &nbsp;Purchase Suummary</a>
                     </div>
                 </li>
 
