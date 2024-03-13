@@ -1,6 +1,6 @@
 <?php
-include('../includes/dbcon.php');
-include('../includes/header.php'); 
+include('../../includes/dbcon.php');
+include('../../includes/header.php'); 
 
 if(isset($_GET['edit'])){
   $id=$_GET['edit'];  
@@ -416,5 +416,5 @@ if(isset($_GET['edit'])){
 </script>
 <?php
 }
-include('../includes/footer.php');
+include('../../includes/footer.php');
 ?>

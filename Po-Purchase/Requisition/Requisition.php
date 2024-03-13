@@ -1,6 +1,6 @@
 <?php
-include('../includes/dbcon.php');
- include('../includes/header.php');  
+include('../../includes/dbcon.php');
+ include('../../includes/header.php');  
 ?>
 
 <style>
@@ -130,6 +130,7 @@ include('../includes/dbcon.php');
                                     <button type="button" class="btn btn-sm  ma"   id="<?php echo $row['id'] ?>" data-name="<?php echo $row1['cn']  ?>" >MA</button>
                                     <button type="button" class="btn btn-sm  radd"  id="<?php echo $row['id']  ?>" >AddRate</button>
                                     <button class="btn btn-sm  rateaprv" id="<?php echo $row['id'] ?>">RA</button>
+                                  
                                     <button class="btn btn-sm btn-success">RA-PDF</button>
                                 </td>
 
@@ -515,5 +516,5 @@ include('../includes/dbcon.php');
     }
 </script>
 <?php
-include('../includes/footer.php');
+include('../../includes/footer.php');
 ?>

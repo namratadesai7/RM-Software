@@ -1,5 +1,5 @@
 <?php 
-include('../includes/dbcon.php');
+include('../../includes/dbcon.php');
 
 /*----------------------- code for get autocomplete item name dept plant-----------------------*/
 if(isset($_POST['iname'])){
@@ -75,23 +75,19 @@ if (isset($_POST['pname'])) {
      //  <!-- for changing button colors       -->
 	if(isset($_POST['id'])){
     	$id=$_POST['id'];
-
 	
 		$sql="SELECT count(*) as cn FROM Requisition_rate a inner join Requisition_details b on a.head_id=b.id
         inner  join Requisition_head c on c.id=b.head_id where c.id='$id'";
 		$run=sqlsrv_query($conn,$sql);
 		$row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC);
 		
-		$cn=$row['cn'];
-
-    
-   		 echo $cn;
+		$cn=$row['cn'];    
+   		echo $cn;
 	}
 	//  <!-- for changing button colors       -->
 	if(isset($_POST['id1'])){
 		$id=$_POST['id1'];
 
-	
 		$sql="SELECT count(*) as cn from Requisition_details a inner join Requisition_head b on a.head_id=b.id where a.head_id='$id' and a.rate_aprv='true' ";
 		$run=sqlsrv_query($conn,$sql);
 		$row=sqlsrv_fetch_array($run,SQLSRV_FETCH_ASSOC);

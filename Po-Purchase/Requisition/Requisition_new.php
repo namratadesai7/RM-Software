@@ -1,6 +1,6 @@
 <?php
-include('../includes/dbcon.php');
-include('../includes/header.php'); 
+include('../../includes/dbcon.php');
+include('../../includes/header.php'); 
 
 ?>
 <style>
@@ -372,5 +372,5 @@ include('../includes/header.php');
 
 </script>
 <?php
-include('../includes/footer.php');
+include('../../includes/footer.php');
 ?>

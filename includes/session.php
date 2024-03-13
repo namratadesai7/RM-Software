@@ -8,6 +8,4 @@ if (!isset($_SESSION['empid'])) {
         </script>
     <?php
 }
-
-
 ?>

@@ -29,7 +29,7 @@ include('dbcon.php');
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
         integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet"  href="../includes/style.css"/>
+    <link rel="stylesheet"  href="../../includes/style.css"/>
 
 
     <!-- 
@@ -171,9 +171,9 @@ include('dbcon.php');
                         <i class="fas fa-angle-right dropdown"></i>
                     </a>
                     <div class="sub-menu" id="popurMenu">
-                    <a href="../Po-Purchase/Requisition.php" class="sub-item" id="req">0.
+                    <a href="../../Po-Purchase/Requisition/Requisition.php" class="sub-item" id="req">0.
                             &nbsp;Requisition</a>
-                        <a href="../Po-Purchase/Poentry.php" class="sub-item" id="dName">1. &nbsp; Po entry</a>
+                        <a href="../../Po-Purchase/PO_Entry/poentry_add.php" class="sub-item" id="poentry">1. &nbsp; Po entry</a>
                         <a href="../Po-Purchase/drum_plant.php" class="sub-item" id="dPlant">2. &nbsp;Seacrh PO</a>
                         <a href="../Po-Purchase/drum_series.php" class="sub-item" id="dSeries">3. &nbsp;Purchase Entry</a>
                         <a href="../Po-Purchase/drum_material.php" class="sub-item" id="dmat">4. &nbsp;Search Purchase</a>

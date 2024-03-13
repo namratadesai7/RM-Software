@@ -1,5 +1,5 @@
 <?php
-include('../includes/dbcon.php');
+include('../../includes/dbcon.php');
 session_start();
 
 if(isset($_POST["save"])){
